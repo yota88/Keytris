@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Data files
+
+# db backup
+
+# Testing
+
+# Keys
+
+# env files
+.env
+
+# Else
+# package-lock.json
+
+# OS level
+.DS_Store
