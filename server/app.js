@@ -9,22 +9,31 @@ const axios = require('axios');
 app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.json());
 
-app.get('/words', (req, res) => {
+app.get('/word', (req, res) => {
+
+  const randomPg = Math.floor(Math.random() * 340);
+
   const options = {
     method: 'GET',
     url: process.env.WORDS_URL,
-    params: {random: 'true'},
+    params: {
+      lettersMin: 4,
+      lettersMax: 6,
+      page: randomPg,
+    },
     headers: {
       'X-RapidAPI-Key': '92bf3efe52mshf910275e4bf90f3p10f0d8jsnd1a85134844b',
       'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
     }
   };
 
-
   axios
     .request(options)
     .then((entry) => {
-      console.log(entry.data);
+      const numWords = entry.data.results.data;
+      const randomIndex = Math.floor(Math.random() * numWords.length);
+      console.log('numWords', numWords);
+      console.log('random word', numWords[randomIndex]);
     })
 });
 
