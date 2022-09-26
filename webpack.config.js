@@ -21,7 +21,7 @@ module.exports = {
   module: {
     // [rules] will determine the rules around those external modules
     rules: [
-      // First rule is to idenify js and jsx files and turn on babel
+      // First rule is to idenify js 3and jsx files and turn on babel
       {
         test: /\.(jsx|js)$/,
         exclude: /node_modules/,
