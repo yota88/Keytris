@@ -9,10 +9,10 @@ import {
   redBlock1,
   redBlock2,
 } from './helpers/Blocks.js';
-import { easyString, hardString } from './helpers/RandomString.js';
+import { easyString, hardString, randomWords } from './helpers/RandomString.js';
 import useInterval from './helpers/UseInterval.js';
 import axios from 'axios';
-import randomWords from 'random-words';
+// import randomWords from 'random-words';
 import 'nes.css/css/nes.min.css';
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
   const [fnIndex, setFnIndex] = useState(0);
   // Block states
   const [blockList, setBlockList] = useState(null);
-  const [blockHead, setBlockHead] = useState(null);
+  const [blockHead, setBlockHead] = useState({string: ''});
   const [blockCount, setBlockCount] = useState(0);
   const [totalBlocks, setTotalBlocks] = useState(0);
   const [stringInterval, setStringInterval] = useState(5);
@@ -68,7 +68,7 @@ export default function App() {
 
   const handleRemove = () => {
     if (blockList.length === 1) {
-      setBlockHead(null);
+      setBlockHead({string: ''});
     } else if (blockList.length > 1) {
       setBlockHead(blockList[blockList.length - 2]);
     }
@@ -108,14 +108,15 @@ export default function App() {
 
   // useEffect for changing game mechanics
   useEffect(() => {
-    // Max blocks accumulated before game over
-    if (blockCount === 5) {
+    // Limit/max blocks accumulated before game over
+    if (blockCount === 11) {
+      setStart(false);
+      setPaused(false);
+      setGameOver(true);
+      setDelay(undefined);
       setBlockList(null);
       setBlockHead(null);
       setIsRunning(false);
-      setStart(false);
-      setDelay(undefined);
-      setGameOver(true);
       setStringLength(4);
       setWordCount(1);
       setFnIndex(0);
@@ -155,7 +156,8 @@ export default function App() {
   useInterval(async () => {
     let newString;
     if (fnIndex === 0) {
-      newString = randomWords({exactly: 1, wordsPerString: wordCount})[0];
+      newString = randomWords();
+      // newString = randomWords({exactly: 1, wordsPerString: wordCount})[0];
     }
     if (fnIndex === 1) {
       newString = easyString(stringLength);
@@ -179,7 +181,7 @@ export default function App() {
     if (!start) {
       setStart(true);
     }
-  }, isRunning ? delay : null, submitted);
+  }, isRunning ? delay : null, submitted, paused);
 
 
   if (!loaded) {
@@ -196,7 +198,9 @@ export default function App() {
   }
 
   return <Board
+    score={score}
     blockList={blockList}
+    blockHead={blockHead}
     handleSubmit={handleSubmit}
     handleKeystroke={handleKeystroke}
     handleLoad={handleLoad}

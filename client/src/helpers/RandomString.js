@@ -1,3 +1,5 @@
+import words from '../../../data/words.js';
+
 export function easyString(length) {
   let result = '';
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -15,4 +17,8 @@ export function hardString(length) {
     result += alphaSymbols.charAt(Math.random() * alphaSymbols.length);
  }
  return result;
+}
+
+export function randomWords() {
+  return words[Math.floor(Math.random() * 178187)];
 }
