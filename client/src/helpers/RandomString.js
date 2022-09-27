@@ -19,6 +19,6 @@ export function hardString(length) {
  return result;
 }
 
-export function randomWords(length) {
-  return sortedWords[Math.floor(Math.random() * 177085)];
+export function randomWords(indexes) {
+  return sortedWords[Math.floor(Math.random() * (indexes[1] - indexes[0]) + indexes[0])];
 }

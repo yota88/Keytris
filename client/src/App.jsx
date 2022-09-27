@@ -13,7 +13,6 @@ import {
 import { easyString, hardString, randomWords } from './helpers/RandomString.js';
 import useInterval from './helpers/UseInterval.js';
 import axios from 'axios';
-// import randomWords from 'random-words';
 import 'nes.css/css/nes.min.css';
 
 export default function App() {
@@ -21,15 +20,17 @@ export default function App() {
   const [name, setName] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [mode, setMode] = useState(false);
+  const [whichMode, setWhichMode] = useState(null);
   const [paused, setPaused] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   // User typing states
   const [keystroke, setKeystroke] = useState('');
   const [submitted, setSubmitted] = useState(false);
   // String parameter states
-  const [stringer, setStringer] = useState(() => easyString);
+  const [stringer, setStringer] = useState(() => [0, easyString]);
   const [stringLength, setStringLength] = useState(4);
   const [wordCount, setWordCount] = useState(1);
+  const [wordIndex, setWordIndex] = useState([0, 25000]);
   const [fnIndex, setFnIndex] = useState(0);
   // Block states
   const [blockList, setBlockList] = useState(null);
@@ -44,17 +45,24 @@ export default function App() {
   const [score, setScore] = useState(0);
   // Window states
   const [winWidth, setWinWidth] = useState(window.innerWidth);
-  // String functions
-  const fns = [easyString, hardString, randomWords];
 
   const handleLoad = () => {
     setLoaded(!loaded);
     setMode(!mode);
     if (gameOver) {
       setScore(0);
+      setMode(false);
+      setWhichMode(null);
+      setKeystroke('');
+      setWordIndex([0, 25000])
     }
     setGameOver(false);
   }
+
+  const handleMode = (e) => {
+    setMode(!mode);
+    setWhichMode(e.target.value);
+    }
 
   const handleKeystroke = (e) => {
     setKeystroke(e.target.value);
@@ -98,7 +106,7 @@ export default function App() {
 
   // useEffect for starting and stopping Interval
   useEffect(() => {
-    if (loaded) {
+    if (loaded && whichMode) {
       if (!blockList) {
         setBlockList([]);
       }
@@ -107,12 +115,12 @@ export default function App() {
     } else {
       setIsRunning(false);
     }
-  }, [loaded]);
+  }, [loaded, whichMode]);
 
   // useEffect for changing game mechanics
   useEffect(() => {
     // Limit/max blocks accumulated before game over
-    if (blockCount === 11) {
+    if (blockCount === 10) {
       setStart(false);
       setPaused(false);
       setGameOver(true);
@@ -127,51 +135,66 @@ export default function App() {
       setBlockCount(0);
       setStringer(() => easyString);
     }
-    // Increment string length difficulty after every x number of blocks
+    // For mixed mode: Increment string length difficulty after every x number of blocks
     // First rotate through each type of string generator
     // Then iterate difficulty of each string
     // Finally iterate delay
     if (totalBlocks === stringInterval) {
-      if (fnIndex !== 2) {
-        setFnIndex(fnIndex + 1);
-      } else {
-        if (stringLength === 7 && wordCount === 2) {
+      // NOOB mode
+      if (whichMode === '0') {
+        if (stringInterval > 1) {
+          setWordIndex([wordIndex[0] + 25000, wordIndex[1] + 25000]);
+        }
+        if (wordIndex[0] === 150000) {
+          setWordIndex([0, 25000]);
+          setDelay(delay - 250);
+        }
+      }
+      // RANDO modes
+      else if (whichMode === '1' || whichMode === '2') {
+        if (stringLength === 7) {
           if (delay > 400) {
             setDelay(delay - 300);
           }
-        }
-        if (stringLength < 6) {
-          setStringLength(stringLength + 1);
-        } else {
           setStringLength(4);
         }
-        if (wordCount === 1) {
-          setWordCount(wordCount + 1);
-        } else {
-          setWordCount(1);
+        if (stringLength < 7) {
+          setStringLength(stringLength + 1);
         }
-        setFnIndex(0);
       }
-      setStringInterval(stringInterval + 3);
-    }
-  }, [blockCount, totalBlocks])
+      // 1337 HAX0R mode
+      else if (whichMode === '3') {
+
+      }
+      // Set number of blocks before increasing difficulty level
+        setStringInterval(stringInterval + 1);
+      }
+    }, [blockCount, totalBlocks])
 
   useInterval(async () => {
     let newString;
-    if (fnIndex === 0) {
-      newString = randomWords();
-      // newString = randomWords({exactly: 1, wordsPerString: wordCount})[0];
+    // NOOB mode
+    if (whichMode === '0') {
+    newString = randomWords(wordIndex);
     }
-    if (fnIndex === 1) {
+    // RANDO mode
+    if (whichMode === '1') {
       newString = easyString(stringLength);
     }
-    if (fnIndex === 2) {
+    // UB3R RANDO mode
+    if (whichMode === '2') {
       if (stringLength <= 5) {
         newString = hardString(stringLength - 1);
       } else {
         newString = hardString(stringLength - 2);
       }
     }
+    //1337 HAX0R mode
+    if (whichMode === '3') {
+
+    }
+
+
     const currBlock = new blueBlock1(newString);
 
     setBlockHead(currBlock);
@@ -198,7 +221,7 @@ export default function App() {
 
   // Go to game mode page if game loaded
   if (mode) {
-    return <Mode/>
+    return <Mode handleMode={handleMode}/>
   }
 
   if (gameOver) {

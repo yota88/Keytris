@@ -53,7 +53,7 @@ export default function Board(props) {
             <form id='answer' onSubmit={handleSubmit}>
               <input className='nes-input is-dark' autoFocus onChange={handleKeystroke}></input>
             </form>
-            <button className='nes-btn is-primary' onClick={handlePause}>PAUSE</button>
+            <button className='nes-btn is-primary pause-btn' onClick={handlePause}>PAUSE</button>
           </div>
         </React.Fragment>
       : <div className='initiating'>Initiating Game...</div>
