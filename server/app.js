@@ -10,9 +10,7 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.json());
 
 app.get('/word', (req, res) => {
-
   const randomPg = Math.floor(Math.random() * 340);
-
   const options = {
     method: 'GET',
     url: process.env.WORDS_URL,
@@ -30,10 +28,13 @@ app.get('/word', (req, res) => {
   axios
     .request(options)
     .then((entry) => {
-      const numWords = entry.data.results.data;
-      const randomIndex = Math.floor(Math.random() * numWords.length);
-      console.log('numWords', numWords);
-      console.log('random word', numWords[randomIndex]);
+      const wordList = entry.data.results.data;
+      const randomIndex = Math.floor(Math.random() * wordList.length);
+      console.log('wordList', wordList);
+      console.log('random word', wordList[randomIndex]);
+      const randomWord = wordList[randomIndex];
+      res.status(200);
+      res.send(randomWord);
     })
 });
 

@@ -1,9 +1,37 @@
+:root {
+  --font: 'Press Start 2P';
+}
+
+html, #root {
+  background-color: rgb(57, 57, 57);
+}
+
+.play-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nes-container {
+  height: 100%;
+}
+
 .box {
   position: relative;
   margin: auto;
-  border: 1px solid red;
+  margin-top: 25vh;
+  border: 4px solid red;
   width: 80vw;
   min-width: 50%;
   height: 50vh;
   min-height: 50%;
+}
+
+.playbtn {
+  width: 10rem;
+}
+
+.game-over {
+  border: 4px solid red;
 }
