@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import GameOver from './Components/gameOver.js';
 import Play from './Components/play.js';
 import Board from './Components/board.js';
+import Mode from './Components/mode.js';
 import {
   blueBlock1,
   blueBlock2,
@@ -19,6 +20,7 @@ export default function App() {
   // Loading states
   const [name, setName] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [mode, setMode] = useState(false);
   const [paused, setPaused] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   // User typing states
@@ -47,6 +49,7 @@ export default function App() {
 
   const handleLoad = () => {
     setLoaded(!loaded);
+    setMode(!mode);
     if (gameOver) {
       setScore(0);
     }
@@ -183,7 +186,7 @@ export default function App() {
     }
   }, isRunning ? delay : null, submitted, paused);
 
-
+  // Go to main play page when game not loaded
   if (!loaded) {
     return <Play
       name={name}
@@ -191,6 +194,11 @@ export default function App() {
       handleLoad={handleLoad}
       paused={paused}
       setPaused={setPaused}/>
+  }
+
+  // Go to game mode page if game loaded
+  if (mode) {
+    return <Mode/>
   }
 
   if (gameOver) {

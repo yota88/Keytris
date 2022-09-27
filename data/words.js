@@ -1,4 +1,5 @@
-export default [
+const fs = require('fs');
+const words = [
   "abreact",
   "abreacted",
   "abreacting",
@@ -178187,3 +178188,23 @@ export default [
   "zyzzyvas",
   "zzz"
   ]
+
+  // export default words;
+
+  const sortedFile = fs.createWriteStream('sortedWords.txt');
+
+  const sortedWords = words.sort((a, b) => {
+    if (a.length < b.length) {
+      return -1;
+    }
+    if (a.length > b.length) {
+      return 1;
+    }
+    return 0;
+  })
+
+  sortedWords.forEach((value) => {
+    sortedFile.write(`"${value}", \n`);
+  });
+  sortedFile.on('finish', () => console.log('finished'));
+  sortedFile.end();

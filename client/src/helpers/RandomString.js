@@ -1,4 +1,4 @@
-import words from '../../../data/words.js';
+import sortedWords from '../../../data/sortedWords.js';
 
 export function easyString(length) {
   let result = '';
@@ -19,6 +19,6 @@ export function hardString(length) {
  return result;
 }
 
-export function randomWords() {
-  return words[Math.floor(Math.random() * 178187)];
+export function randomWords(length) {
+  return sortedWords[Math.floor(Math.random() * 177085)];
 }
