@@ -4,6 +4,7 @@ import GameOver from './Components/gameOver.js';
 import Play from './Components/play.js';
 import Board from './Components/board.js';
 import Mode from './Components/mode.js';
+import Leaders from './Components/leaders.js';
 import {
   blueBlock1,
   blueBlock2,
@@ -14,15 +15,18 @@ import { easyString, hardString, randomWords } from './helpers/RandomString.js';
 import useInterval from './helpers/UseInterval.js';
 import axios from 'axios';
 import 'nes.css/css/nes.min.css';
+import useSound from 'use-sound';
+import Tetris from './Tetris_A.mp3';
 
 export default function App() {
   // Loading states
-  const [name, setName] = useState(null);
+  const [name, setName] = useState('');
   const [loaded, setLoaded] = useState(false);
   const [mode, setMode] = useState(false);
   const [whichMode, setWhichMode] = useState(null);
   const [paused, setPaused] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [leaders, setLeaders] = useState(false);
   // User typing states
   const [keystroke, setKeystroke] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -43,6 +47,7 @@ export default function App() {
   const [delay, setDelay] = useState(undefined);
   const [isRunning, setIsRunning] = useState(false);
   const [score, setScore] = useState(0);
+  const [scoreBoard, setScoreBoard] = useState(null);
   // Window states
   const [winWidth, setWinWidth] = useState(window.innerWidth);
 
@@ -62,7 +67,11 @@ export default function App() {
   const handleMode = (e) => {
     setMode(!mode);
     setWhichMode(e.target.value);
-    }
+  }
+
+  const handleLeaders = () => {
+    setLeaders(!leaders);
+  }
 
   const handleKeystroke = (e) => {
     setKeystroke(e.target.value);
@@ -78,7 +87,7 @@ export default function App() {
   }
 
   const handleRemove = () => {
-    if (blockList.length === 1) {
+    if (blockList.length === 2) {
       setBlockHead({string: ''});
     } else if (blockList.length > 1) {
       setBlockHead(blockList[blockList.length - 2]);
@@ -120,7 +129,7 @@ export default function App() {
   // useEffect for changing game mechanics
   useEffect(() => {
     // Limit/max blocks accumulated before game over
-    if (blockCount === 10) {
+    if (blockCount === 2) {
       setStart(false);
       setPaused(false);
       setGameOver(true);
@@ -134,6 +143,14 @@ export default function App() {
       setTotalBlocks(0);
       setBlockCount(0);
       setStringer(() => easyString);
+
+      // Submit score to db
+      (async () => { await axios.post('/scores', {
+        name,
+        score,
+        mode: whichMode,
+      })
+      })();
     }
     // For mixed mode: Increment string length difficulty after every x number of blocks
     // First rotate through each type of string generator
@@ -191,7 +208,7 @@ export default function App() {
     }
     //1337 HAX0R mode
     if (whichMode === '3') {
-
+      // Continue here.
     }
 
 
@@ -209,12 +226,18 @@ export default function App() {
     }
   }, isRunning ? delay : null, submitted, paused);
 
+  // Go to leaderboard when leader button clicked
+  if (leaders) {
+    return <Leaders handleLeaders={handleLeaders}/>
+  }
+
   // Go to main play page when game not loaded
   if (!loaded) {
     return <Play
       name={name}
       setName={setName}
       handleLoad={handleLoad}
+      handleLeaders={handleLeaders}
       paused={paused}
       setPaused={setPaused}/>
   }
@@ -223,7 +246,7 @@ export default function App() {
   if (mode) {
     return <Mode handleMode={handleMode}/>
   }
-
+  // Go to game over page when player loses
   if (gameOver) {
     return <GameOver score={score} handleLoad={handleLoad}/>
   }

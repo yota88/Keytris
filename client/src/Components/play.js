@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-export default function Play({ handleLoad, paused, name, setName }) {
+export default function Play({ handleLoad, handleLeaders, paused, name, setName }) {
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -23,9 +23,16 @@ export default function Play({ handleLoad, paused, name, setName }) {
                 <div className='nes-field enter-name'>
                   <h1>KEYTRIS</h1>
                   <label className='name-field'>Enter Your Name:</label>
-                  <input className='nes-input is-dark' autoFocus onChange={handleName}></input>
+                  <input
+                    className='nes-input is-dark'
+                    type='text'
+                    autoFocus
+                    onChange={handleName}
+                    value={name}
+                    />
                   <button className='nes-btn is-primary playbtn'>PLAY</button>
                 </div>
+                  <button className='nes-btn is-success playbtn' onClick={handleLeaders}>LEADERBOARD</button>
               </form>
             </React.Fragment>
           : <React.Fragment>
