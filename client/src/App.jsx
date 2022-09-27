@@ -179,7 +179,7 @@ export default function App() {
     if (!start) {
       setStart(true);
     }
-  }, isRunning ? delay : null);
+  }, isRunning ? delay : null, submitted);
 
 
   if (!loaded) {

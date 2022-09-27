@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-export default function useInterval(callback, delay) {
+export default function useInterval(callback, delay, submitted) {
   const intervalRef = useRef();
   const callbackRef = useRef(callback);
 
@@ -25,7 +25,7 @@ export default function useInterval(callback, delay) {
       // Clear interval if the components is unmounted or the delay changes:
       return () => window.clearInterval(intervalRef.current);
     }
-  }, [delay]);
+  }, [delay, submitted]);
 
   // Returns a ref to the interval ID in case you want to clear it manually:
   return intervalRef;
