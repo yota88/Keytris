@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Pool } = require('pg');
-const { scores } = require('./tables.js');
+const { scores, clicks } = require('./tables.js');
 
 const credentials = {
   user: process.env.PG_USER,
@@ -18,7 +18,7 @@ const pool = new Pool(credentials);
 //   const client = await pool.connect();
 //   console.log('Connected to sdc db successfully');
 //   try {
-//     const users = await client.query(scores);
+//     const users = await client.query(clicks);
 //   }
 //   catch (err) {
 //     console.log(`Something wrong happened: ${err}`);

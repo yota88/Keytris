@@ -14,6 +14,10 @@ html, #root {
   justify-content: center;
 }
 
+.keytris {
+  padding-top: 2rem;
+}
+
 .enter-name,
 .pause-container {
   display: flex;

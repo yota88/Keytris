@@ -10,4 +10,12 @@ module.exports = {
     leet BIGINT DEFAULT 0,
     PRIMARY KEY(name)
     );`,
+
+  clicks:
+  `CREATE TABLE IF NOT EXISTS clicks (
+    id SERIAL NOT NULL,
+    date VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id)
+  );`,
 }

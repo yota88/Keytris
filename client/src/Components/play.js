@@ -4,6 +4,7 @@ import useSound from 'use-sound';
 import gameStart from '../gameStart.mp3';
 import Spritesheet from 'react-responsive-spritesheet';
 import yota88 from '../yota88_keytris_sprite.png';
+import axios from 'axios';
 
 export default function Play(props) {
   const {
@@ -25,6 +26,7 @@ export default function Play(props) {
   const handlePlay = (e) => {
     if (name.length >= 1) {
       handleLoad();
+      axios.post('/interactions', { date: new Date(), name: name })
     }
     if (toggleSound) {
       playStart();
@@ -44,7 +46,7 @@ export default function Play(props) {
               {/* <div className='instructions'>Intro goes here to explain gameplay</div> */}
               <form onSubmit={handlePlay}>
                 <div className='nes-field enter-name'>
-                  <h1>
+                  <h1 className='keytris'>
                   <span className='title-container nes-text is-error'>K</span>
                   <span className='title-container nes-text is-warning'>E</span>
                   <span className='title-container nes-text is-success'>Y</span>

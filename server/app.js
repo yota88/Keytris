@@ -48,6 +48,12 @@ app.get('/score/single', async (req, res) => {
   const userScore = await db.query(`SELECT ${modes[userInfo.mode]} FROM scores
     WHERE name = '${userInfo.name}'`);
   res.send(userScore.rows);
+});
+
+app.post('/interactions', async (req, res) => {
+  const clickData = req.body;
+  await db.query(`INSERT INTO clicks (date, name)
+    VALUES ('${clickData.date}', '${clickData.name}')`);
 })
 
 module.exports = app;

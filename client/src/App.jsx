@@ -275,7 +275,8 @@ export default function App() {
 
   // Go to main play page when game not loaded
   if (!loaded) {
-    return <Play
+    return (
+      <Play
       name={name}
       setName={setName}
       handleLoad={handleLoad}
@@ -286,6 +287,7 @@ export default function App() {
       setToggleSound={setToggleSound}
       handleQuit={handleQuit}
       />
+    )
   }
 
   // Go to game mode page if game loaded
