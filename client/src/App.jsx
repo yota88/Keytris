@@ -169,7 +169,7 @@ export default function App() {
   // useEffect for changing game mechanics
   useEffect(() => {
     // Limit/max blocks accumulated before game over
-    if (blockCount === 10) {
+    if (blockCount === 11) {
       setStart(false);
       setPaused(false);
       setGameOver(true);
