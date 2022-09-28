@@ -13,6 +13,7 @@ const credentials = {
 const pool = new Pool(credentials);
 
 // Run function below to initialize db table creation if needed
+
 // async function connectClient() {
 //   const client = await pool.connect();
 //   console.log('Connected to sdc db successfully');

@@ -16,7 +16,9 @@ import useInterval from './helpers/UseInterval.js';
 import axios from 'axios';
 import 'nes.css/css/nes.min.css';
 import useSound from 'use-sound';
-import Tetris from './Tetris_A.mp3';
+import gameMusic from './8bitMusic.mp3';
+import correct from './success3.mp3';
+import gameOverSound from './gameOverSound.mp3';
 
 export default function App() {
   // Loading states
@@ -48,6 +50,11 @@ export default function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [score, setScore] = useState(0);
   const [scoreBoard, setScoreBoard] = useState(null);
+  // Sounds
+  const [playCorrect] = useSound(correct);
+  const [playGameOver] = useSound(gameOverSound);
+  const [playMusic, { stop }] = useSound(gameMusic, { volume: 0.5 });
+  const [toggleSound, setToggleSound] = useState(false);
   // Window states
   const [winWidth, setWinWidth] = useState(window.innerWidth);
 
@@ -59,7 +66,7 @@ export default function App() {
       setMode(false);
       setWhichMode(null);
       setKeystroke('');
-      setWordIndex([0, 25000])
+      setWordIndex([0, 25000]);
     }
     setGameOver(false);
   }
@@ -82,12 +89,15 @@ export default function App() {
     if (keystroke === blockHead.string) {
       handleRemove();
       setScore(score + 1);
+      if (!toggleSound) {
+        playCorrect();
+      }
     }
     setSubmitted(!submitted);
   }
 
   const handleRemove = () => {
-    if (blockList.length === 2) {
+    if (blockList.length === 1) {
       setBlockHead({string: ''});
     } else if (blockList.length > 1) {
       setBlockHead(blockList[blockList.length - 2]);
@@ -121,8 +131,12 @@ export default function App() {
       }
       setIsRunning(true);
       setDelay(2000);
+      if (!toggleSound) {
+        playMusic();
+      }
     } else {
       setIsRunning(false);
+      stop();
     }
   }, [loaded, whichMode]);
 
@@ -143,6 +157,8 @@ export default function App() {
       setTotalBlocks(0);
       setBlockCount(0);
       setStringer(() => easyString);
+      stop();
+      playGameOver();
 
       // Submit score to db
       (async () => { await axios.post('/scores', {
@@ -248,7 +264,11 @@ export default function App() {
   }
   // Go to game over page when player loses
   if (gameOver) {
-    return <GameOver score={score} handleLoad={handleLoad}/>
+    return <GameOver
+      score={score}
+      handleLoad={handleLoad}
+      whichMode={whichMode}
+      name={name}/>
   }
 
   return <Board
@@ -262,6 +282,7 @@ export default function App() {
     totalBlocks={totalBlocks}
     blockCount={blockCount}
     paused={paused}
+    stop={stop}
     setPaused={setPaused}
     />;
 }

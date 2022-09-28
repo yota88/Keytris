@@ -13,6 +13,7 @@ export default function Board(props) {
     blockCount,
     totalBlocks,
     paused,
+    stop,
     setPaused,
   } = props;
 
@@ -32,6 +33,7 @@ export default function Board(props) {
   const handlePause = () => {
     if (!paused) {
       setPaused(!paused);
+      stop();
     }
     handleLoad();
   }

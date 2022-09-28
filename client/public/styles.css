@@ -18,7 +18,7 @@ html, #root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 /* variable font-sizes */
@@ -92,6 +92,12 @@ html, #root {
   min-width: 15rem;
 }
 
+.leaderboard {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
 .nes-container {
   height: 100%;
 }
@@ -107,12 +113,21 @@ html, #root {
   min-height: 30rem;
 }
 
-.nes-btn {
-  width: 15rem;
-  font-size: 1rem;
-}
-
 .game-over {
   border: 4px solid red;
   justify-content: center;
+}
+
+.title-container {
+  border: 0.25rem solid white;
+  padding-top: 0.5rem;
+  padding-bottom: 0.35rem;
+  padding-left: 0.5rem;
+  padding-right: 0.35rem;
+  margin: 0.25rem;
+}
+
+.nes-btn {
+  width: 15rem;
+  font-size: 1rem;
 }
