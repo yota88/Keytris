@@ -30,12 +30,16 @@ app.post('/scores', async (req, res) => {
 
 app.get('/scores', async (req, res) => {
   const noobLeaders = await db.query(`SELECT name, noob FROM scores
+    WHERE noob > 0
     ORDER BY noob DESC LIMIT 5`);
   const randoLeaders = await db.query(`SELECT name, rando FROM scores
+    WHERE rando > 0
     ORDER BY rando DESC LIMIT 5`);
   const uberLeaders = await db.query(`SELECT name, uber FROM scores
+    WHERE uber > 0
     ORDER BY uber DESC LIMIT 5`);
   const leetLeaders = await db.query(`SELECT name, leet FROM scores
+    WHERE leet > 0
     ORDER BY leet DESC LIMIT 5`);
   console.log(noobLeaders.rows);
   res.send([noobLeaders.rows, randoLeaders.rows, uberLeaders.rows, leetLeaders.rows]);

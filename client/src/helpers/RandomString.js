@@ -1,4 +1,5 @@
 import sortedWords from '../../../data/sortedWords.js';
+import methods from '../../../data/methods.js';
 
 export function easyString(length) {
   let result = '';
@@ -21,4 +22,10 @@ export function hardString(length) {
 
 export function randomWords(indexes) {
   return sortedWords[Math.floor(Math.random() * (indexes[1] - indexes[0]) + indexes[0])];
+}
+
+export function randomMethods() {
+  const methodString = methods[Math.floor(Math.random() * 31)];
+  const combinedString = methodString + '(' + randomWords([0, 20000]) + ')';
+  return combinedString;
 }

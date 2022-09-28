@@ -1,3 +1,4 @@
+
 :root {
   --font: 'Press Start 2P';
 }
@@ -125,6 +126,18 @@ html, #root {
   padding-left: 0.5rem;
   padding-right: 0.35rem;
   margin: 0.25rem;
+}
+
+.letter-r {
+  color: rgb(196, 54, 196);
+}
+
+.letter-i {
+  color: rgb(188, 235, 0);
+}
+
+.letter-s {
+  color: rgb(54, 196, 144);
 }
 
 .nes-btn {

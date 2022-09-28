@@ -32,10 +32,12 @@ export default function GameOver({ score, name, whichMode, handleLoad }) {
   return (
     <div className='box'>
       <div className='player-container game-over nes-container is-rounded is-centered is-dark'>
-        <div>GAME OVER</div>
+        <h1 className='nes-text is-error'>GAME OVER</h1>
         {bestScore
-          ? <div>{score} not as agood as previous {bestScore}</div>
-          : <div>New high score {score}!</div>
+          ? <div>{score} not as good as previous {bestScore}</div>
+          : score
+          ? <div>New high score {score}!</div>
+          : <div>Did you even try?</div>
         }
         <button className='nes-btn is-primary restart-btn' onClick={handleLoad}>RESTART</button>
       </div>

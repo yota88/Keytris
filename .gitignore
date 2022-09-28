@@ -2,7 +2,7 @@
 node_modules/
 
 # Data files
-
+data/words
 # db backup
 
 # Testing

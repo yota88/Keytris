@@ -11,7 +11,7 @@ import {
   redBlock1,
   redBlock2,
 } from './helpers/Blocks.js';
-import { easyString, hardString, randomWords } from './helpers/RandomString.js';
+import { easyString, hardString, randomWords, randomMethods } from './helpers/RandomString.js';
 import useInterval from './helpers/UseInterval.js';
 import axios from 'axios';
 import 'nes.css/css/nes.min.css';
@@ -54,7 +54,7 @@ export default function App() {
   const [playCorrect] = useSound(correct);
   const [playGameOver] = useSound(gameOverSound);
   const [playMusic, { stop }] = useSound(gameMusic, { volume: 0.5 });
-  const [toggleSound, setToggleSound] = useState(false);
+  const [toggleSound, setToggleSound] = useState(true);
   // Window states
   const [winWidth, setWinWidth] = useState(window.innerWidth);
 
@@ -89,7 +89,7 @@ export default function App() {
     if (keystroke === blockHead.string) {
       handleRemove();
       setScore(score + 1);
-      if (!toggleSound) {
+      if (toggleSound) {
         playCorrect();
       }
     }
@@ -107,6 +107,28 @@ export default function App() {
       return blockList;
     });
     setBlockCount(blockCount => blockCount - 1);
+  }
+
+  const handleQuit = () => {
+    setStart(false);
+    setPaused(false);
+    setGameOver(true);
+    setDelay(undefined);
+    setBlockList(null);
+    setBlockHead(null);
+    setIsRunning(false);
+    setStringLength(4);
+    setWordCount(1);
+    setFnIndex(0);
+    setTotalBlocks(0);
+    setBlockCount(0);
+    setStringer(() => easyString);
+    setLoaded(false);
+    setScore(0);
+    setMode(false);
+    setWhichMode(null);
+    setKeystroke('');
+    setWordIndex([0, 25000]);
   }
 
   // useEffect for DOM appearance
@@ -130,8 +152,12 @@ export default function App() {
         setBlockList([]);
       }
       setIsRunning(true);
-      setDelay(2000);
-      if (!toggleSound) {
+      if (whichMode === '3') {
+        setDelay(3000);
+      } else {
+        setDelay(2000);
+      }
+      if (toggleSound) {
         playMusic();
       }
     } else {
@@ -143,7 +169,7 @@ export default function App() {
   // useEffect for changing game mechanics
   useEffect(() => {
     // Limit/max blocks accumulated before game over
-    if (blockCount === 2) {
+    if (blockCount === 10) {
       setStart(false);
       setPaused(false);
       setGameOver(true);
@@ -158,7 +184,9 @@ export default function App() {
       setBlockCount(0);
       setStringer(() => easyString);
       stop();
-      playGameOver();
+      if (toggleSound) {
+        playGameOver();
+      }
 
       // Submit score to db
       (async () => { await axios.post('/scores', {
@@ -196,9 +224,9 @@ export default function App() {
         }
       }
       // 1337 HAX0R mode
-      else if (whichMode === '3') {
+      // else if (whichMode === '3') {
 
-      }
+      // }
       // Set number of blocks before increasing difficulty level
         setStringInterval(stringInterval + 1);
       }
@@ -224,9 +252,8 @@ export default function App() {
     }
     //1337 HAX0R mode
     if (whichMode === '3') {
-      // Continue here.
+      newString = randomMethods();
     }
-
 
     const currBlock = new blueBlock1(newString);
 
@@ -244,7 +271,7 @@ export default function App() {
 
   // Go to leaderboard when leader button clicked
   if (leaders) {
-    return <Leaders handleLeaders={handleLeaders}/>
+    return <Leaders setLeaders={setLeaders} leaders={leaders}/>
   }
 
   // Go to main play page when game not loaded
@@ -255,7 +282,11 @@ export default function App() {
       handleLoad={handleLoad}
       handleLeaders={handleLeaders}
       paused={paused}
-      setPaused={setPaused}/>
+      setPaused={setPaused}
+      toggleSound={toggleSound}
+      setToggleSound={setToggleSound}
+      handleQuit={handleQuit}
+      />
   }
 
   // Go to game mode page if game loaded
@@ -286,11 +317,3 @@ export default function App() {
     setPaused={setPaused}
     />;
 }
-
-// This is for calling WordsAPI if necessary for truly random word
-// const wordQuery = await axios
-//   .get('/word')
-//   .then((results) => {
-//     newString = results.data;
-//     console.log('newString results', newString);
-//   });
