@@ -21,7 +21,6 @@ export default function GameOver({ score, name, whichMode, handleLoad }) {
         }
       })
       .then((results) => {
-        console.log(parseInt(results.data[0][modes[whichMode]]), score);
         if (parseInt(results.data[0][modes[whichMode]]) > score) {
           bestScore = parseInt(results.data[0][modes[whichMode]]);
         }

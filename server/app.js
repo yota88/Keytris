@@ -19,7 +19,6 @@ const modes = {
 
 app.post('/scores', async (req, res) => {
   const { name, score, mode } = req.body;
-  console.log('mode', mode);
   await db.query(`INSERT INTO scores
   (name, ${modes[mode]})
   VALUES ('${name}', ${score})
@@ -41,13 +40,11 @@ app.get('/scores', async (req, res) => {
   const leetLeaders = await db.query(`SELECT name, leet FROM scores
     WHERE leet > 0
     ORDER BY leet DESC LIMIT 5`);
-  console.log(noobLeaders.rows);
   res.send([noobLeaders.rows, randoLeaders.rows, uberLeaders.rows, leetLeaders.rows]);
 });
 
 app.get('/score/single', async (req, res) => {
   const userInfo = req.query;
-  console.log(userInfo);
   const userScore = await db.query(`SELECT ${modes[userInfo.mode]} FROM scores
     WHERE name = '${userInfo.name}'`);
   res.send(userScore.rows);
