@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import useSound from 'use-sound';
 import gameStart from '../gameStart.mp3';
+import Spritesheet from 'react-responsive-spritesheet';
+import yota88 from '../yota88_keytris_sprite.png';
 
 export default function Play(props) {
   const {
@@ -67,6 +69,16 @@ export default function Play(props) {
                     ? <button className='nes-btn is-warning playbtn' onClick={handleSound}>SOUND: ON</button>
                     : <button className='nes-btn is-error playbtn' onClick={handleSound}>SOUND: OFF</button>
                   }
+                  <div className='created-by'>CREATED BY:
+                    <Spritesheet
+                    image={yota88}
+                    widthFrame={220}
+                    heightFrame={40}
+                    steps={12}
+                    fps={4}
+                    direction='forward'
+                    loop={true}/>
+                  </div>
             </React.Fragment>
           : <React.Fragment>
             <div className='pause-container'>

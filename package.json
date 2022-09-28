@@ -34,6 +34,7 @@
     "pg": "^8.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-responsive-spritesheet": "^2.3.9",
     "use-sound": "^4.0.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
