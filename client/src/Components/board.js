@@ -50,7 +50,7 @@ export default function Board(props) {
             </div>
           </div>
           <div className='player-container'>
-            <div className='current-score'>SCORE: {score}</div>
+            <div className='current-score nes-text is-warning'>SCORE: {score}</div>
             <div className='block-head'>{blockHead.string}</div>
             <form id='answer' onSubmit={handleSubmit}>
               <input

@@ -26,7 +26,6 @@ html, #root {
 .name-field,
 .initiating,
 .current-score,
-.destiny,
 .game-over {
   font-size: 1.25rem;
 }
@@ -126,6 +125,25 @@ html, #root {
   padding-left: 0.5rem;
   padding-right: 0.35rem;
   margin: 0.25rem;
+}
+
+.mode-container {
+  display: flex;
+  justify-content: center;
+}
+
+.gameplay {
+  flex-basis: 50%;
+  padding-right: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.instructions > * {
+  font-size: 0.85rem;
+  text-align: left;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
 }
 
 .letter-r {
