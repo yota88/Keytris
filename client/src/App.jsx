@@ -112,7 +112,6 @@ export default function App() {
   const handleQuit = () => {
     setStart(false);
     setPaused(false);
-    setGameOver(true);
     setDelay(undefined);
     setBlockList(null);
     setBlockHead(null);
