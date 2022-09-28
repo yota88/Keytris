@@ -46,14 +46,22 @@ export default function Board(props) {
           <div className='list-container'>
             <div className={`stack-label nes-text ${stackColor[blockCount]}`}>STACK SIZE: {blockCount}</div>
             <div className='stack'>
-              {blockList.map((b, i, blockList) => <div>{blockList[blockList.length - 1 - i].string}</div>)}
+              {blockList.map((b, i, blockList) => <div key={i}>{blockList[blockList.length - 1 - i].string}</div>)}
             </div>
           </div>
           <div className='player-container'>
             <div className='current-score'>SCORE: {score}</div>
             <div className='block-head'>{blockHead.string}</div>
             <form id='answer' onSubmit={handleSubmit}>
-              <input className='nes-input is-dark' autoFocus onChange={handleKeystroke}></input>
+              <input
+                className='nes-input is-dark'
+                autoFocus
+                onChange={handleKeystroke}
+                onKeyUp={(e) => {
+                  if (e.key === 'Escape') {
+                    handlePause();
+                  }
+                }}/>
             </form>
             <button className='nes-btn is-primary pause-btn' onClick={handlePause}>PAUSE</button>
           </div>

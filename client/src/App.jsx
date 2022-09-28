@@ -53,7 +53,7 @@ export default function App() {
   // Sounds
   const [playCorrect] = useSound(correct);
   const [playGameOver] = useSound(gameOverSound);
-  const [playMusic, { stop }] = useSound(gameMusic, { volume: 0.5 });
+  const [playMusic, { stop }] = useSound(gameMusic, { loop: true, volume: 0.5 });
   const [toggleSound, setToggleSound] = useState(true);
   // Window states
   const [winWidth, setWinWidth] = useState(window.innerWidth);
