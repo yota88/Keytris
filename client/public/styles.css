@@ -24,6 +24,7 @@ html, #root {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  font-size: 2rem;
 }
 
 .created-by {

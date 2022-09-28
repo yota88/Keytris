@@ -13,6 +13,7 @@ export default function Mode({ score, handleMode }) {
               <li>Type the current word and press ENTER to submit.</li>
               <li>Do not let stack rise to more than 10 words.</li>
               <li>Do not quit.</li>
+              <li>CAREFUL! 'fi' is 'f' + 'i'</li>
             </ol>
           </div>
           <div className='mode-btn'>
