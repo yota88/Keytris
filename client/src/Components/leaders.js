@@ -23,7 +23,6 @@ export default function Leaders({ setLeaders, leaders }) {
     axios
       .get('/scores')
       .then((results) => {
-        console.log(results.data);
         setNoobs(results.data[0]);
         setRandos(results.data[1]);
         setUbers(results.data[2]);
