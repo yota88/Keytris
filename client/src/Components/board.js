@@ -53,15 +53,17 @@ export default function Board(props) {
             <div className='current-score nes-text is-warning'>SCORE: {score}</div>
             <div className='block-head'>{blockHead.string}</div>
             <form id='answer' onSubmit={handleSubmit}>
-              <input
-                className='nes-input is-dark'
-                autoFocus
-                onChange={handleKeystroke}
-                onKeyUp={(e) => {
-                  if (e.key === 'Escape') {
-                    handlePause();
-                  }
-                }}/>
+              <div className='input-field'>
+                <input
+                  className='nes-input is-dark'
+                  autoFocus
+                  onChange={handleKeystroke}
+                  onKeyUp={(e) => {
+                    if (e.key === 'Escape') {
+                      handlePause();
+                    }
+                  }}/>
+              </div>
             </form>
             <button className='nes-btn is-primary pause-btn' onClick={handlePause}>PAUSE</button>
           </div>
@@ -70,16 +72,5 @@ export default function Board(props) {
     }
     </div>
   </div>
-
-    // <div className='box'>
-    //   <div className='playbtn-container nes-container is-centered is-dark is-rounded'>
-    //     {!paused
-    //       : <React.Fragment>
-    //           <div>Do not show weakness! Continue!</div>
-    //           <button className='nes-btn is-primary playbtn' onClick={loader}>RESUME</button>
-    //         </React.Fragment>
-    //     }
-    //   </div>
-    // </div>
   )
 }

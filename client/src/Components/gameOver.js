@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function GameOver({ score, name, whichMode, handleLoad }) {
-  let bestScore;
+
+  const [best, setBest] = useState(null);
 
   const modes = {
     '0': 'noob',
@@ -21,8 +22,10 @@ export default function GameOver({ score, name, whichMode, handleLoad }) {
         }
       })
       .then((results) => {
+        console.log(results.data[0][modes[whichMode]], score);
         if (parseInt(results.data[0][modes[whichMode]]) > score) {
-          bestScore = parseInt(results.data[0][modes[whichMode]]);
+          const bestScore = parseInt(results.data[0][modes[whichMode]]);
+          setBest(bestScore);
         }
       })
 
@@ -32,10 +35,10 @@ export default function GameOver({ score, name, whichMode, handleLoad }) {
     <div className='box'>
       <div className='player-container game-over nes-container is-rounded is-centered is-dark'>
         <h1 className='nes-text is-error'>GAME OVER</h1>
-        {bestScore
-          ? <div>{score} not as good as previous {bestScore}</div>
+        {best
+          ? <div>{score} not as good as previous best: {best}</div>
           : score
-          ? <div>New high score {score}!</div>
+          ? <div>High score {score}!</div>
           : <div>Did you even try?</div>
         }
         <button className='nes-btn is-primary restart-btn' onClick={handleLoad}>RESTART</button>

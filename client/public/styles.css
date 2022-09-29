@@ -31,11 +31,22 @@ html, #root {
   font-size: 2rem;
 }
 
+.input-field {
+  width: 75%;
+  margin: auto;
+}
+
 .created-by {
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 0.75rem;
 }
+
+.created-by-container {
+  display: flex;
+}
+
+
 
 /* variable font-sizes */
 .name-field,
@@ -109,15 +120,15 @@ html, #root {
 
 .leaderboard {
   display: flex;
-  width: 100%;
+  flex-wrap: wrap;
   justify-content: space-evenly;
+  gap: 2rem;
 }
-
 
 .box {
   position: relative;
   margin: auto;
-  margin-top: 12.5vh;
+  margin-top: 10vh;
   width: 80vw;
   min-width: 45rem;
   height: 75vh;
