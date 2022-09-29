@@ -266,7 +266,7 @@ export default function App() {
     if (!start) {
       setStart(true);
     }
-  }, isRunning ? delay : null, submitted, paused);
+  }, isRunning ? delay : null, score, paused);
 
   // Go to leaderboard when leader button clicked
   if (leaders) {
