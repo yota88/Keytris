@@ -152,7 +152,9 @@ export default function App() {
       }
       setIsRunning(true);
       if (whichMode === '3') {
-        setDelay(3000);
+        setDelay(3300);
+      } else if (whichMode === '2') {
+        setDelay(2500);
       } else {
         setDelay(2000);
       }
@@ -206,15 +208,17 @@ export default function App() {
           setWordIndex([wordIndex[0] + 25000, wordIndex[1] + 25000]);
         }
         if (wordIndex[0] === 150000) {
-          setWordIndex([0, 25000]);
-          setDelay(delay - 250);
+          if (delay > 1500) {
+            setWordIndex([0, 25000]);
+            setDelay(delay - 150);
+          }
         }
       }
       // RANDO modes
       else if (whichMode === '1' || whichMode === '2') {
         if (stringLength === 7) {
-          if (delay > 400) {
-            setDelay(delay - 300);
+          if (delay > 1500) {
+            setDelay(delay - 150);
           }
           setStringLength(4);
         }
@@ -223,11 +227,8 @@ export default function App() {
         }
       }
       // 1337 HAX0R mode
-      // else if (whichMode === '3') {
-
-      // }
       // Set number of blocks before increasing difficulty level
-        setStringInterval(stringInterval + 1);
+        setStringInterval(stringInterval + 5);
       }
     }, [blockCount, totalBlocks])
 

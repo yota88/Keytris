@@ -25,7 +25,13 @@ export function randomWords(indexes) {
 }
 
 export function randomMethods() {
-  const methodString = methods[Math.floor(Math.random() * 31)];
-  const combinedString = methodString + '(' + randomWords([0, 20000]) + ')';
+  const randomIndex = Math.floor(Math.random() * 58);
+  const methodString = methods[randomIndex];
+  let combinedString;
+  if (randomIndex <= 29) {
+    combinedString = methodString + '(' + randomWords([0, 20000]) + ')';
+  } else {
+    combinedString = methodString;
+  }
   return combinedString;
 }
