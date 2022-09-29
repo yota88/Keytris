@@ -227,6 +227,11 @@ export default function App() {
         }
       }
       // 1337 HAX0R mode
+      else if (whichMode === '3') {
+        if (delay > 2500) {
+          setDelay(delay - 150);
+        }
+      }
       // Set number of blocks before increasing difficulty level
         setStringInterval(stringInterval + 5);
       }
