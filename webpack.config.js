@@ -9,7 +9,7 @@ module.exports = {
   // "production" will be minified
   mode: "development",
   // [entry] this is the file where the bundling starts from.
-  entry: './client/src/index.jsx',
+  entry: './client/src/index.tsx',
   // [output] is a configuration object to determine how and where to bundle our code
   output: {
     // [path] is where to output
@@ -17,13 +17,16 @@ module.exports = {
     // [filename] is the name of the file
     filename: "bundle.js"
   },
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
+  },
   // [module] will allow us to set any external modules we have added to webpack
   module: {
     // [rules] will determine the rules around those external modules
     rules: [
       // First rule is to idenify js 3and jsx files and turn on babel
       {
-        test: /\.(jsx|js)$/,
+        test: /\.(tsx|ts|jsx|js)$/,
         exclude: /node_modules/,
         loader: "babel-loader"
       },
