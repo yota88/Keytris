@@ -2,27 +2,31 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function Leaders({ setLeaders, leaders }) {
-
-  const [noobs, setNoobs] = useState({});
-  const [randos, setRandos] = useState({});
-  const [ubers, setUbers] = useState({});
-  const [leets, setLeets] = useState({});
+interface LeaderProps {
+  setLeaders: (isLeader: boolean) => void;
+  leaders: boolean;
+}
+export default function Leaders({ setLeaders, leaders }: LeaderProps) {
+  const [noobs, setNoobs] = useState([]);
+  const [randos, setRandos] = useState([]);
+  const [ubers, setUbers] = useState([]);
+  const [leets, setLeets] = useState([]);
   const [gotData, setGotData] = useState(false);
   let noobList;
   let randoList;
   let uberList;
   let leetList;
 
-  const handleLeaders = () => {
+  const handleLeaders = (): void => {
     setLeaders(!leaders);
     setGotData(!gotData);
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     axios
       .get('/scores')
       .then((results) => {
+        console.log(results.data[0])
         setNoobs(results.data[0]);
         setRandos(results.data[1]);
         setUbers(results.data[2]);
@@ -32,19 +36,19 @@ export default function Leaders({ setLeaders, leaders }) {
   }, []);
 
   if (noobs.length) {
-    noobList = noobs.map((noob, i) => <div key={i}>{noob.name}: {noob.noob}</div>);
+    noobList = noobs.map((noob: {name: string, noob: number}, i) => <div key={i}>{noob.name}: {noob.noob}</div>);
   }
 
   if (randos.length) {
-    randoList = randos.map((rando, i) => <div key={i}>{rando.name}: {rando.rando}</div>);
+    randoList = randos.map((rando: {name: string, rando: number}, i) => <div key={i}>{rando.name}: {rando.rando}</div>);
   }
 
   if (ubers.length) {
-    uberList = ubers.map((uber, i) => <div key={i}>{uber.name}: {uber.uber}</div>);
+    uberList = ubers.map((uber: {name: string, uber: number}, i) => <div key={i}>{uber.name}: {uber.uber}</div>);
   }
 
   if (leets.length) {
-    leetList = leets.map((leet, i) => <div key={i}>{leet.name}: {leet.leet}</div>);
+    leetList = leets.map((leet: {name: string, leet: number}, i) => <div key={i}>{leet.name}: {leet.leet}</div>);
   }
 
   return (

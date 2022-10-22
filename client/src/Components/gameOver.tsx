@@ -2,11 +2,21 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function GameOver({ score, name, whichMode, handleLoad }) {
+interface OverProps {
+  score: number;
+  name: string;
+  whichMode: string | null;
+  handleLoad: () => void;
+}
 
-  const [best, setBest] = useState(null);
+export default function GameOver({ score, name, whichMode, handleLoad }: OverProps) {
+  const [best, setBest] = useState<number | null>(null);
 
-  const modes = {
+  interface GameModes {
+    [key: string]: string;
+  }
+
+  const modes: GameModes = {
     '0': 'noob',
     '1': 'rando',
     '2': 'uber',
@@ -22,10 +32,11 @@ export default function GameOver({ score, name, whichMode, handleLoad }) {
         }
       })
       .then((results) => {
-        console.log(results.data[0][modes[whichMode]], score);
-        if (parseInt(results.data[0][modes[whichMode]]) > score) {
-          const bestScore = parseInt(results.data[0][modes[whichMode]]);
-          setBest(bestScore);
+        if (whichMode) {
+          if (parseInt(results.data[0][modes[whichMode]]) > score) {
+            const bestScore = parseInt(results.data[0][modes[whichMode]]);
+            setBest(bestScore);
+          }
         }
       })
 
@@ -39,7 +50,7 @@ export default function GameOver({ score, name, whichMode, handleLoad }) {
           ? <div>{score} not as good as previous best: {best}</div>
           : score
           ? <div>High score {score}!</div>
-          : <div>Did you even try?</div>
+          : <div>Try again?</div>
         }
         <button className='nes-btn is-primary restart-btn' onClick={handleLoad}>RESTART</button>
       </div>

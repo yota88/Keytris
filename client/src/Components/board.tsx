@@ -6,13 +6,13 @@ interface BoardProps {
   blockList: { color: string, blockSize: Number, string: string }[];
   blockHead: { string: string };
   handleLoad: () => void;
-  handleKeystroke: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleKeystroke: (e: React.FormEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.SyntheticEvent) => void;
   blockCount: number;
   totalBlocks: number;
   paused: boolean;
   stop: any;
-  setPaused: boolean;
+  setPaused: (isPaused: boolean) => void;
 }
 
 export default function Board(props: BoardProps) {
@@ -31,7 +31,11 @@ export default function Board(props: BoardProps) {
     setPaused,
   } = props;
 
-  const stackColor = {
+  interface StackColor {
+    [key: number]: string;
+  }
+
+  const stackColor: StackColor = {
     1: '',
     2: '',
     3: 'is-primary',
@@ -44,7 +48,7 @@ export default function Board(props: BoardProps) {
     10: 'is-error',
   }
 
-  const handlePause = () => {
+  const handlePause = (): void => {
     if (!paused) {
       setPaused(!paused);
       stop();

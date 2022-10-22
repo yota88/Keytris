@@ -72,8 +72,8 @@ export default function App() {
     setLeaders(!leaders);
   }
 
-  const handleKeystroke = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    setKeystroke((e.target as HTMLInputElement).value);
+  const handleKeystroke = (e: React.FormEvent<HTMLInputElement>): void => {
+    setKeystroke((e.currentTarget as HTMLInputElement).value);
   }
 
   const handleSubmit = (e: React.SyntheticEvent): void => {
@@ -275,7 +275,6 @@ export default function App() {
       handleLoad={handleLoad}
       handleLeaders={handleLeaders}
       paused={paused}
-      setPaused={setPaused}
       toggleSound={toggleSound}
       setToggleSound={setToggleSound}
       handleQuit={handleQuit}

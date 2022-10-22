@@ -1,12 +1,22 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import useSound from 'use-sound';
 import gameStart from '../gameStart.mp3';
 import Spritesheet from 'react-responsive-spritesheet';
 import yota88 from '../yota88_keytris_sprite.png';
 import axios from 'axios';
 
-export default function Play(props) {
+interface PlayProps {
+  handleLoad: () => void;
+  handleLeaders: () => void;
+  paused: boolean;
+  name: string;
+  setName: (name: string) => void;
+  toggleSound: boolean;
+  setToggleSound: (toggleSound: boolean) => void;
+  handleQuit: () => void;
+}
+
+export default function Play(props: PlayProps) {
   const {
     handleLoad,
     handleLeaders,
@@ -16,14 +26,16 @@ export default function Play(props) {
     toggleSound,
     setToggleSound,
     handleQuit,
-  } = props
-  const [playStart, { stopStart }] = useSound(gameStart, { volume: 0.5 });
+  } = props;
 
-  const handleName = (e) => {
-    setName(e.target.value);
+  const [playStart] = useSound(gameStart, { volume: 0.5 });
+
+  const handleName = (e: React.FormEvent<HTMLInputElement>): void => {
+    const targetName = e.target as HTMLInputElement;
+    setName(targetName.value);
   }
 
-  const handlePlay = (e) => {
+  const handlePlay = (): void => {
     if (name.length >= 1 && name.length <=10) {
       handleLoad();
       axios.post('/interactions', { date: new Date(), name: name })
@@ -33,25 +45,19 @@ export default function Play(props) {
     }
   }
 
-  const handleSound = () => {
+  const handleSound = (): void => {
     setToggleSound(!toggleSound);
   }
-
-  // const handleGitHub = () => {
-  //   window.open('http://www.github.com/yota88');
-  // }
 
   const handleLinkedIn = () => {
     window.open('http://www.linkedin.com/in/yota88');
   }
-
 
   return (
     <div className='box'>
       <div className='play-container nes-container is-centered is-dark is-rounded'>
         {!paused
           ? <React.Fragment>
-              {/* <div className='instructions'>Intro goes here to explain gameplay</div> */}
               <form onSubmit={handlePlay}>
                 <div className='nes-field enter-name'>
                   <h2 className='keytris'>
@@ -91,8 +97,7 @@ export default function Play(props) {
                         fps={4}
                         direction='forward'
                         loop={true}/>
-                      {/* <i className='nes-icon github github-icon' alt='github-logo' onClick={handleGitHub}></i> */}
-                      <i className='nes-icon linkedin' alt='github-logo' onClick={handleLinkedIn}></i>
+                      <i className='nes-icon linkedin' onClick={handleLinkedIn}></i>
                     </div>
                   </div>
             </React.Fragment>
